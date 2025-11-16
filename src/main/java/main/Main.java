@@ -1,56 +1,111 @@
+package main;
+
 import insurance.*;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-
-// НОВІ ІМПОРТИ для логування
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// НОВІ ІМПОРТИ ДЛЯ КОМАНД
+import command.Command;
+import command.CreatePolicyCommand;
+import command.SortPoliciesCommand;
+import command.GenerateReportCommand;
+import command.LoadFromFileCommand;
+import command.ShowPoliciesCommand;
+import command.FindPoliciesCommand;
+import command.ExitCommand;
+
+
+/**
+ * Головний клас програми. Тепер він також виступає в ролі "Отримувача" (Receiver) -
+ * він містить всю логіку, яку будуть викликати команди.
+ */
 public class Main {
-    // 1. СТВОРЮЄМО ЛОГГЕР для цього класу
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    private static final Scanner scanner = new Scanner(System.in);
-    private static final InsuranceManager manager = new InsuranceManager();
-    private static final Derivative derivative = new Derivative();
-    private static int idCounter = 1;
+    // Змінюємо все на НЕ-статичне
+    private final Scanner scanner = new Scanner(System.in);
+    private final InsuranceManager manager = new InsuranceManager();
+    private final Derivative derivative = new Derivative();
+    private int idCounter = 1;
+    private boolean isRunning = true; // Нова змінна для виходу з циклу
 
+    // Карта для зберігання наших команд (замість switch)
+    private final Map<String, Command> menuCommands = new HashMap<>();
+
+    //
+    // ГОЛОВНИЙ МЕТОД (main) ТЕПЕР ДУЖЕ МАЛЕНЬКИЙ
+    //
     public static void main(String[] args) {
-        // 2. Перше повідомлення в лог-файл!
         logger.info("===== СИСТЕМУ СТРАХУВАННЯ ЗАПУЩЕНО =====");
 
-        while (true) {
-            System.out.println("\n===== МЕНЮ СТРАХОВОЇ СИСТЕМИ =====");
-            System.out.println("1. Створити страховий поліс");
-            System.out.println("2. Переглянути всі поліси");
-            System.out.println("3. Сортувати поліси за рівнем ризику");
-            System.out.println("4. Знайти поліси за параметрами");
-            System.out.println("5. Генерувати звіт про дериватив");
-            System.out.println("6. Завантажити поліси з файлу");
-            System.out.println("0. Вихід");
-            System.out.print("Ваш вибір: ");
+        // Ми просто створюємо об'єкт main.Main і запускаємо його
+        Main application = new Main();
+        application.initializeCommands(); // Створюємо команди
+        application.runMenuLoop(); // Запускаємо цикл меню
+
+        logger.info("===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====");
+    }
+
+    //
+    // 1. ІНІЦІАЛІЗАЦІЯ КОМАНД (Заповнюємо нашу Map)
+    //
+    private void initializeCommands() {
+        // Ми передаємо 'this' (поточний об'єкт main.Main) у кожну команду,
+        // щоб вона могла викликати його методи (напр. createPolicy())
+        menuCommands.put("1", new CreatePolicyCommand(this));
+        menuCommands.put("2", new ShowPoliciesCommand(this));
+        menuCommands.put("3", new SortPoliciesCommand(this));
+        menuCommands.put("4", new FindPoliciesCommand(this));
+        menuCommands.put("5", new GenerateReportCommand(this));
+        menuCommands.put("6", new LoadFromFileCommand(this));
+        menuCommands.put("0", new ExitCommand(this));
+    }
+
+    //
+    // 2. ГОЛОВНИЙ ЦИКЛ МЕНЮ (Тепер без switch!)
+    //
+    private void runMenuLoop() {
+        while (isRunning) {
+            printMenu();
             String choice = scanner.nextLine();
-            switch (choice) {
-                case "1" -> createPolicy();
-                case "2" -> showPolicies();
-                case "3" -> sortPolicies();
-                case "4" -> findPolicies();
-                case "5" -> manager.generateReport(derivative);
-                case "6" -> loadPoliciesFromFile();
-                case "0" -> {
-                    logger.info("===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====");
-                    System.out.println("До побачення!");
-                    return;
-                }
-                default -> System.out.println("❌ Невірний вибір. Спробуйте ще раз.");
+
+            Command command = menuCommands.get(choice); // Отримуємо команду з карти
+
+            if (command != null) {
+                command.execute(); // Виконуємо її
+            } else {
+                System.out.println("❌ Невірний вибір. Спробуйте ще раз.");
             }
         }
     }
 
-    private static void loadPoliciesFromFile() {
+    private void printMenu() {
+        System.out.println("\n===== МЕНЮ СТРАХОВОЇ СИСТЕМИ (ПАТЕРН 'КОМАНДА') =====");
+        System.out.println("1. Створити страховий поліс");
+        System.out.println("2. Переглянути всі поліси");
+        System.out.println("3. Сортувати поліси за рівнем ризику");
+        System.out.println("4. Знайти поліси за параметрами");
+        System.out.println("5. Генерувати звіт про дериватив");
+        System.out.println("6. Завантажити поліси з файлу");
+        System.out.println("0. Вихід");
+        System.out.print("Ваш вибір: ");
+    }
+
+    //
+    // 3. УСІ МЕТОДИ ЛОГІКИ (тепер вони НЕ static і стали public)
+    //
+
+    public void exit() {
+        this.isRunning = false;
+        System.out.println("До побачення!");
+    }
+
+    public void loadPoliciesFromFile() {
         System.out.print("Введіть ім'я файлу (напр. 'policies.txt'): ");
         String filename = scanner.nextLine();
 
@@ -73,18 +128,15 @@ public class Main {
                     successCount++;
 
                 } catch (Exception e) {
-                    // 3. ЗАМІНА: Логуємо помилку парсингу рядка у файл
                     logger.warn("ПОМИЛКА ПАРСИНГУ: Не вдалося обробити рядок [{}]. Причина: {}", line, e.getMessage());
                     errorCount++;
                 }
             }
         } catch (FileNotFoundException e) {
-            // 3. ЗАМІНА: Логуємо критичну помилку у файл
             logger.error("КРИТИЧНА ПОМИЛКА: Файл не знайдено: {}", filename, e);
             System.out.println("❌ Файл не знайдено: " + filename);
             return;
         } catch (IOException e) {
-            // 3. ЗАМІНА: Логуємо критичну помилку у файл
             logger.error("КРИТИЧНА ПОМИЛКА: Помилка читання файлу: {}", filename, e);
             System.out.println("❌ Помилка читання файлу: " + e.getMessage());
             return;
@@ -98,10 +150,8 @@ public class Main {
         }
     }
 
-
-    private static void createPolicy() {
+    public void createPolicy() {
         try {
-            // ... (увесь ваш код для зчитування даних ... залишається БЕЗ ЗМІН) ...
             System.out.println("\nОберіть тип страхування:");
             System.out.println("1. Медичне\n2. Авто\n3. Майнове\n4. Туристичне\n5. Агро\n6. Життя");
             System.out.print("Ваш вибір: ");
@@ -116,7 +166,6 @@ public class Main {
             int duration = Integer.parseInt(scanner.nextLine());
 
             InsurancePolicy policy = switch (type) {
-                // ... (усі ваші case 1-6 ... залишаються БЕЗ ЗМІН) ...
                 case 1 -> {
                     System.out.print("Вікове обмеження: ");
                     int ageLimit = Integer.parseInt(scanner.nextLine());
@@ -186,23 +235,18 @@ public class Main {
             idCounter++;
 
         } catch (NumberFormatException e) {
-            // 3. ЗАМІНА: Логуємо помилку вводу у файл
             logger.warn("ПОМИЛКА ВВОДУ: Користувач ввів не число.", e);
             System.out.println("❌ Помилка вводу: Очікувалося число.");
         } catch (IllegalArgumentException e) {
-            // 3. ЗАМІНА: Логуємо помилку логіки у файл
             logger.warn("ПОМИЛКА ЛОГІКИ: {}", e.getMessage());
             System.out.println("❌ Помилка: " + e.getMessage());
         } catch (Exception e) {
-            // 3. ЗАМІНА: Логуємо будь-яку іншу помилку у файл
             logger.error("НЕОЧІКУВАНА ПОМИЛКА при створенні полісу:", e);
             System.out.println("❌ Сталася неочікувана помилка: " + e.getMessage());
         }
     }
 
-    // ... (решта методів: showPolicies, sortPolicies, findPolicies ... залишаються БЕЗ ЗМІН) ...
-    // ... (але ви можете додати logger.warn(...) у їхні `if (derivative.getPolicies().isEmpty())` за бажанням) ...
-    private static void showPolicies() {
+    public void showPolicies() {
         if (derivative.getPolicies().isEmpty()) {
             logger.warn("Користувач спробував переглянути поліси, але дериватив порожній.");
             System.out.println("⚠️ Поліси відсутні.");
@@ -212,7 +256,7 @@ public class Main {
         derivative.getPolicies().forEach(System.out::println);
     }
 
-    private static void sortPolicies() {
+    public void sortPolicies() {
         if (derivative.getPolicies().isEmpty()) {
             logger.warn("Користувач спробував сортувати поліси, але дериватив порожній.");
             System.out.println("⚠️ Немає що сортувати.");
@@ -226,7 +270,7 @@ public class Main {
         showPolicies();
     }
 
-    private static void findPolicies() {
+    public void findPolicies() {
         if (derivative.getPolicies().isEmpty()) {
             logger.warn("Користувач спробував знайти поліси, але дериватив порожній.");
             System.out.println("⚠️ Поліси відсутні, пошук неможливий.");
@@ -254,5 +298,9 @@ public class Main {
             logger.warn("ПОМИЛКА ВВОДУ: Користувач ввів не число при пошуку.", e);
             System.out.println("❌ Помилка вводу: Очікувалося число.");
         }
+    }
+
+    public void generateReport() {
+        manager.generateReport(derivative);
     }
 }

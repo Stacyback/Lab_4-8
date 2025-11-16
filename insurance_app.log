@@ -1,0 +1,35 @@
+2025-11-16 03:43:55.235 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗАПУЩЕНО =====
+2025-11-16 03:45:29.794 [main] INFO  main.Main - Успішно створено поліс: BMW M5 F90 [ID=1]
+2025-11-16 03:46:26.493 [main] WARN  main.Main - ПОМИЛКА ВВОДУ: Користувач ввів не число.
+java.lang.NumberFormatException: For input string: "ооо"
+	at java.base/jdk.internal.math.FloatingDecimal.check(FloatingDecimal.java:2324)
+	at java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1928)
+	at java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+	at java.base/java.lang.Double.parseDouble(Double.java:971)
+	at main.Main.createPolicy(main.Main.java:112)
+	at main.Main.main(main.Main.java:37)
+2025-11-16 03:46:32.598 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====
+2025-11-16 04:04:31.039 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗАПУЩЕНО =====
+2025-11-16 04:04:46.901 [main] INFO  main.Main - Починаємо читання файлу: policies.txt
+2025-11-16 04:04:46.907 [main] INFO  main.Main - Завантаження файлу policies.txt завершено. Успішно: 4, Помилки: 0
+2025-11-16 04:04:59.456 [main] INFO  main.Main - Поліси відсортовано (ascending=false)
+2025-11-16 04:05:42.926 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-16 04:05:42.926 [main] INFO  insurance.InsuranceManager - Елемент звіту: Моя Mazda [ID=1, Risk=0,30, Obligation=150000,00] (Премія: 210000,00)
+2025-11-16 04:05:42.927 [main] INFO  insurance.InsuranceManager - Елемент звіту: Здоров'я+ [ID=2, Risk=0,20, Obligation=50000,00] (Премія: 60000,00)
+2025-11-16 04:05:42.927 [main] INFO  insurance.InsuranceManager - Елемент звіту: На майбутнє [ID=4, Risk=0,15, Obligation=1000000,00] (Премія: 1150000,00)
+2025-11-16 04:05:42.928 [main] INFO  insurance.InsuranceManager - Елемент звіту: Майнове страхування [ID=3, Risk=0,10, Obligation=500000,00, Type=Квартира] (Премія: 632500,00)
+2025-11-16 04:05:42.934 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 2052500,00 =====
+2025-11-16 04:06:21.390 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====
+2025-11-16 04:40:17.081 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗАПУЩЕНО =====
+2025-11-16 04:40:22.652 [main] ERROR main.Main - КРИТИЧНА ПОМИЛКА: Файл не знайдено: fake.txt
+java.io.FileNotFoundException: fake.txt (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:185)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:139)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:109)
+	at java.base/java.io.FileReader.<init>(FileReader.java:60)
+	at main.Main.loadPoliciesFromFile(Main.java:115)
+	at command.LoadFromFileCommand.execute(LoadFromFileCommand.java:13)
+	at main.Main.runMenuLoop(Main.java:80)
+	at main.Main.main(Main.java:49)
+2025-11-16 04:40:41.606 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====
