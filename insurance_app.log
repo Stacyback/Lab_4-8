@@ -33,3 +33,48 @@ java.io.FileNotFoundException: fake.txt (The system cannot find the file specifi
 	at main.Main.runMenuLoop(Main.java:80)
 	at main.Main.main(Main.java:49)
 2025-11-16 04:40:41.606 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====
+2025-11-16 21:50:47.574 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗАПУЩЕНО =====
+2025-11-16 21:51:27.075 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗАПУЩЕНО =====
+2025-11-16 21:54:09.357 [main] INFO  main.Main - Успішно створено поліс: Audi RS8 [ID=1]
+2025-11-16 21:55:05.401 [main] INFO  main.Main - Починаємо читання файлу: policies.txt
+2025-11-16 21:55:05.404 [main] INFO  main.Main - Завантаження файлу policies.txt завершено. Успішно: 20, Помилки: 0
+2025-11-16 21:55:50.096 [main] INFO  main.Main - Поліси відсортовано (ascending=false)
+2025-11-16 21:57:33.666 [main] INFO  main.Main - Пошук полісів з параметрами: minR=0.2, maxR=0.6, maxObl=10000.0
+2025-11-16 21:57:33.667 [main] INFO  main.Main - Пошук не дав результатів.
+2025-11-16 21:58:21.656 [main] INFO  main.Main - Пошук полісів з параметрами: minR=0.4, maxR=0.6, maxObl=200000.0
+2025-11-16 21:58:21.657 [main] INFO  main.Main - Знайдено 5 полісів.
+2025-11-16 21:59:04.612 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-16 21:59:04.613 [main] INFO  insurance.InsuranceManager - Елемент звіту: Старий Lanos [ID=5, Risk=0,80, Obligation=25000,00] (Премія: 45000,00)
+2025-11-16 21:59:04.613 [main] INFO  insurance.InsuranceManager - Елемент звіту: Екстрім-тур [ID=14, Risk=0,70, Obligation=50000,00] (Премія: 138000,00)
+2025-11-16 21:59:04.615 [main] INFO  insurance.InsuranceManager - Елемент звіту: Audi RS8 [ID=1, Risk=0,70, Obligation=200000,00] (Премія: 340000,00)
+2025-11-16 21:59:04.615 [main] INFO  insurance.InsuranceManager - Елемент звіту: Сад [ID=17, Risk=0,60, Obligation=400000,00] (Премія: 1680000,00)
+2025-11-16 21:59:04.615 [main] INFO  insurance.InsuranceManager - Елемент звіту: Sprinter [ID=3, Risk=0,60, Obligation=80000,00] (Премія: 128000,00)
+2025-11-16 21:59:04.616 [main] INFO  insurance.InsuranceManager - Елемент звіту: Майнове страхування [ID=21, Risk=0,50, Obligation=800000,00, Type=Комерційна] (Премія: 1716000,00)
+2025-11-16 21:59:04.616 [main] INFO  insurance.InsuranceManager - Елемент звіту: Лижі в Альпах [ID=13, Risk=0,50, Obligation=50000,00] (Премія: 95000,00)
+2025-11-16 21:59:04.617 [main] INFO  insurance.InsuranceManager - Елемент звіту: Для літніх [ID=8, Risk=0,50, Obligation=100000,00] (Премія: 262500,00)
+2025-11-16 21:59:04.618 [main] INFO  insurance.InsuranceManager - Елемент звіту: Майнове страхування [ID=19, Risk=0,40, Obligation=70000,00, Type=Будинок] (Премія: 112700,00)
+2025-11-16 21:59:04.618 [main] INFO  insurance.InsuranceManager - Елемент звіту: Соняшник [ID=16, Risk=0,40, Obligation=180000,00] (Премія: 1620000,00)
+2025-11-16 21:59:04.619 [main] INFO  insurance.InsuranceManager - Елемент звіту: Ризикова робота [ID=7, Risk=0,40, Obligation=500000,00] (Премія: 700000,00)
+2025-11-16 21:59:04.619 [main] INFO  insurance.InsuranceManager - Елемент звіту: Поле пшениці [ID=15, Risk=0,30, Obligation=250000,00] (Премія: 4000000,00)
+2025-11-16 21:59:04.619 [main] INFO  insurance.InsuranceManager - Елемент звіту: Моя Mazda [ID=2, Risk=0,30, Obligation=150000,00] (Премія: 210000,00)
+2025-11-16 21:59:04.620 [main] INFO  insurance.InsuranceManager - Елемент звіту: Майнове страхування [ID=20, Risk=0,20, Obligation=1000000,00, Type=Комерційна] (Премія: 1320000,00)
+2025-11-16 21:59:04.620 [main] INFO  insurance.InsuranceManager - Елемент звіту: Базовий пакет [ID=9, Risk=0,20, Obligation=50000,00] (Премія: 60000,00)
+2025-11-16 21:59:04.620 [main] INFO  insurance.InsuranceManager - Елемент звіту: На майбутнє [ID=6, Risk=0,15, Obligation=1000000,00] (Премія: 1150000,00)
+2025-11-16 21:59:04.621 [main] INFO  insurance.InsuranceManager - Елемент звіту: Майнове страхування [ID=18, Risk=0,10, Obligation=500000,00, Type=Квартира] (Премія: 605000,00)
+2025-11-16 21:59:04.621 [main] INFO  insurance.InsuranceManager - Елемент звіту: Відпустка в ЄС [ID=12, Risk=0,10, Obligation=30000,00] (Премія: 36000,00)
+2025-11-16 21:59:04.622 [main] INFO  insurance.InsuranceManager - Елемент звіту: Для дитини [ID=11, Risk=0,10, Obligation=100000,00] (Премія: 110000,00)
+2025-11-16 21:59:04.623 [main] INFO  insurance.InsuranceManager - Елемент звіту: Пакет 'Все включено' [ID=10, Risk=0,10, Obligation=200000,00] (Премія: 220000,00)
+2025-11-16 21:59:04.623 [main] INFO  insurance.InsuranceManager - Елемент звіту: Нова Tesla [ID=4, Risk=0,10, Obligation=300000,00] (Премія: 360000,00)
+2025-11-16 21:59:04.637 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 14908200,00 =====
+2025-11-16 22:00:50.654 [main] ERROR main.Main - КРИТИЧНА ПОМИЛКА: Файл не знайдено: propol.txt
+java.io.FileNotFoundException: propol.txt (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:185)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:139)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:109)
+	at java.base/java.io.FileReader.<init>(FileReader.java:60)
+	at main.Main.loadPoliciesFromFile(Main.java:115)
+	at command.LoadFromFileCommand.execute(LoadFromFileCommand.java:13)
+	at main.Main.runMenuLoop(Main.java:80)
+	at main.Main.main(Main.java:49)
+2025-11-16 22:01:31.385 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====

@@ -85,7 +85,7 @@ public class Main {
     }
 
     private void printMenu() {
-        System.out.println("\n===== МЕНЮ СТРАХОВОЇ СИСТЕМИ (ПАТЕРН 'КОМАНДА') =====");
+        System.out.println("\n===== МЕНЮ СТРАХОВОЇ СИСТЕМИ =====");
         System.out.println("1. Створити страховий поліс");
         System.out.println("2. Переглянути всі поліси");
         System.out.println("3. Сортувати поліси за рівнем ризику");
