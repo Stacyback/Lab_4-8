@@ -78,3 +78,5 @@ java.io.FileNotFoundException: propol.txt (The system cannot find the file speci
 	at main.Main.runMenuLoop(Main.java:80)
 	at main.Main.main(Main.java:49)
 2025-11-16 22:01:31.385 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====
+2025-11-18 23:17:00.414 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗАПУЩЕНО =====
+2025-11-18 23:20:07.760 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====

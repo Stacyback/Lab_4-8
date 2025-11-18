@@ -1,15 +1,22 @@
 package command;
-import main.Main;
+
+import insurance.Derivative;
 
 public class ShowPoliciesCommand implements Command {
-    private Main receiver;
 
-    public ShowPoliciesCommand(Main receiver) {
-        this.receiver = receiver;
+    private final Derivative derivative;
+
+    public ShowPoliciesCommand(Derivative derivative) {
+        this.derivative = derivative;
     }
 
     @Override
     public void execute() {
-        receiver.showPolicies();
+        if (derivative.getPolicies().isEmpty()) {
+            System.out.println(" Немає полісів.");
+            return;
+        }
+
+        derivative.getPolicies().forEach(System.out::println);
     }
 }
