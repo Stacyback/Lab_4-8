@@ -1,8 +1,5 @@
 package insurance;
 
-import java.util.List;
-
-// НОВІ ІМПОРТИ для логування
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
