@@ -2,7 +2,6 @@ package command;
 
 import insurance.Derivative;
 import insurance.InsurancePolicy;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,32 +17,27 @@ public class FindPoliciesCommand implements Command {
 
     @Override
     public void execute() {
-
         if (derivative.getPolicies().isEmpty()) {
-            System.out.println(" Немає полісів.");
+            System.out.println("Полісів немає.");
             return;
         }
-
         try {
-            System.out.print("Мін. ризик: ");
-            double min = Double.parseDouble(scanner.nextLine());
+            System.out.print("Мінімальний ризик (0-1): ");
+            double minR = Double.parseDouble(scanner.nextLine().trim());
+            System.out.print("Максимальний ризик (0-1): ");
+            double maxR = Double.parseDouble(scanner.nextLine().trim());
+            System.out.print("Максимальне зобов'язання: ");
+            double maxObl = Double.parseDouble(scanner.nextLine().trim());
 
-            System.out.print("Макс. ризик: ");
-            double max = Double.parseDouble(scanner.nextLine());
-
-            System.out.print("Макс. зобов'язання: ");
-            double maxObl = Double.parseDouble(scanner.nextLine());
-
-            List<InsurancePolicy> found = derivative.findByParameters(min, max, maxObl);
-
+            List<InsurancePolicy> found = derivative.findByParameters(minR, maxR, maxObl);
             if (found.isEmpty()) {
-                System.out.println("Нічого не знайдено.");
+                System.out.println("Поліси за заданими параметрами не знайдені.");
             } else {
+                System.out.println("Знайдені поліси:");
                 found.forEach(System.out::println);
             }
-
-        } catch (Exception e) {
-            System.out.println(" Невірний формат.");
+        } catch (NumberFormatException e) {
+            System.out.println("Помилка вводу: очікувалося число.");
         }
     }
 }

@@ -1,14 +1,20 @@
 package command;
 
-public class GenerateReportCommand implements Command {
-    private main.Main receiver;
+import insurance.Derivative;
+import insurance.InsuranceManager;
 
-    public GenerateReportCommand(main.Main receiver) {
-        this.receiver = receiver;
+public class GenerateReportCommand implements Command {
+
+    private final InsuranceManager manager;
+    private final Derivative derivative;
+
+    public GenerateReportCommand(InsuranceManager manager, Derivative derivative) {
+        this.manager = manager;
+        this.derivative = derivative;
     }
 
     @Override
     public void execute() {
-        receiver.generateReport();
+        manager.generateReport(derivative);
     }
 }

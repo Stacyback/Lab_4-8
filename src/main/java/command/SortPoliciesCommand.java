@@ -15,18 +15,13 @@ public class SortPoliciesCommand implements Command {
 
     @Override
     public void execute() {
-
         if (derivative.getPolicies().isEmpty()) {
-            System.out.println("⚠️ Немає що сортувати.");
+            System.out.println("Немає що сортувати.");
             return;
         }
-
-        System.out.print("Сортувати за зростанням? (true/false): ");
-        boolean asc = Boolean.parseBoolean(scanner.nextLine());
-
+        System.out.print("Сортувати за зростанням ризику? (true/false): ");
+        boolean asc = Boolean.parseBoolean(scanner.nextLine().trim());
         derivative.sortByRisk(asc);
-
-        System.out.println("✔ Відсортовано:");
-        derivative.getPolicies().forEach(System.out::println);
+        System.out.println("Поліси відсортовано.");
     }
 }

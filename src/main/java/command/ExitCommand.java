@@ -1,15 +1,16 @@
 package command;
-import main.Main;
 
 public class ExitCommand implements Command {
-    private Main receiver;
 
-    public ExitCommand(main.Main receiver) {
-        this.receiver = receiver;
+    private final Runnable onExit;
+
+    public ExitCommand(Runnable onExit) {
+        this.onExit = onExit;
     }
 
     @Override
     public void execute() {
-        receiver.exit();
+        System.out.println("Вихід з програми.");
+        if (onExit != null) onExit.run();
     }
 }
