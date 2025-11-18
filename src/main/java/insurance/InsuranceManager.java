@@ -50,7 +50,7 @@ public class InsuranceManager {
 
         if (derivative.getPolicies().isEmpty()) {
             logger.warn("Звіт не згенеровано: дериватив порожній.");
-            System.out.println("⚠️ Дериватив порожній.");
+            System.out.println(" Дериватив порожній.");
             return;
         }
 

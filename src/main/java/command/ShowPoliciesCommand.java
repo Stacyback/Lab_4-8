@@ -13,10 +13,10 @@ public class ShowPoliciesCommand implements Command {
     @Override
     public void execute() {
         if (derivative.getPolicies().isEmpty()) {
-            System.out.println(" Немає полісів.");
+            System.out.println("Полісів немає.");
             return;
         }
-
+        System.out.println("Всі поліси:");
         derivative.getPolicies().forEach(System.out::println);
     }
 }
