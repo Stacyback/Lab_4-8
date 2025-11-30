@@ -122,3 +122,16 @@ java.io.FileNotFoundException: propol.txt (The system cannot find the file speci
 2025-11-30 13:17:09.617 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
 2025-11-30 13:17:09.617 [main] INFO  insurance.InsuranceManager - Елемент звіту: Test [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
 2025-11-30 13:17:09.618 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:35:22.865 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:35:22.871 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:35:23.006 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:35:23.007 [main] INFO  insurance.InsuranceManager - Елемент звіту: Car [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:35:23.017 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:35:23.066 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:35:23.066 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:35:23.071 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:35:23.071 [main] INFO  insurance.InsuranceManager - Елемент звіту: A [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:35:23.072 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:35:23.090 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:35:23.091 [main] INFO  insurance.InsuranceManager - Елемент звіту: Test [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:35:23.091 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====

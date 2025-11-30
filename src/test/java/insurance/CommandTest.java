@@ -51,23 +51,77 @@ class CommandTest {
     }
 
     // --- ТЕСТИ CreatePolicyCommand ---
-
     @Test
     void testCreateMedicalPolicySuccess() {
-        // Симулюємо введення: Тип 1 (Medical) -> Назва -> Сума -> Ризик -> Час -> Вік -> Покриття -> Послуга
+        // 1 -> Medical
         String input = "1\nTestMed\n1000\n0.5\n12\n60\nFull\nService\n";
         Scanner scanner = mockScanner(input);
-
         Command cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
         cmd.execute();
 
-        // Перевіряємо, що поліс додався
         assertEquals(1, derivative.getPolicies().size());
         assertTrue(derivative.getPolicies().get(0) instanceof MedicalInsurance);
+        assertTrue(outputStreamCaptor.toString().contains("Поліс створено, ID = 1"));
+    }
 
-        // Перевіряємо виведення
-        String output = outputStreamCaptor.toString();
-        assertTrue(output.contains("Поліс створено, ID = 1"));
+    @Test
+    void testCreateAutoPolicySuccess() {
+        // 2 -> Auto
+        String input = "2\nCarTest\n2000\n0.2\n24\nSedan\n0\ntrue\n";
+        Scanner scanner = mockScanner(input);
+        Command cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
+        cmd.execute();
+
+        assertEquals(1, derivative.getPolicies().size());
+        assertTrue(derivative.getPolicies().get(0) instanceof AutoInsurance);
+    }
+
+    @Test
+    void testCreatePropertyPolicySuccess() {
+        // 3 -> Property
+        String input = "3\nHouseTest\n5000\n0.1\n12\nApartment\nHigh\ntrue\n";
+        Scanner scanner = mockScanner(input);
+        Command cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
+        cmd.execute();
+
+        assertEquals(1, derivative.getPolicies().size());
+        assertTrue(derivative.getPolicies().get(0) instanceof PropertyInsurance);
+    }
+
+    @Test
+    void testCreateTravelPolicySuccess() {
+        // 4 -> Travel
+        String input = "4\nTripTest\n1000\n0.1\n1\nUSA\n10\n0.05\n";
+        Scanner scanner = mockScanner(input);
+        Command cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
+        cmd.execute();
+
+        assertEquals(1, derivative.getPolicies().size());
+        assertTrue(derivative.getPolicies().get(0) instanceof TravelInsurance);
+    }
+
+    @Test
+    void testCreateAgroPolicySuccess() {
+        // 5 -> Agro
+        String input = "5\nWheatTest\n10000\n0.3\n6\nWheat\n100.5\n0.2\n";
+        Scanner scanner = mockScanner(input);
+        Command cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
+        cmd.execute();
+
+        assertEquals(1, derivative.getPolicies().size());
+        assertTrue(derivative.getPolicies().get(0) instanceof AgroInsurance);
+    }
+
+    @Test
+    void testCreateLifePolicySuccess() {
+        // 6 -> Life
+        String input = "6\nLifeTest\n50000\n0.1\n120\n30\n50000\nGood\n";
+        Scanner scanner = mockScanner(input);
+        Command cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
+        cmd.execute();
+
+        assertEquals(1, derivative.getPolicies().size());
+        assertTrue(derivative.getPolicies().get(0) instanceof LifeInsurance);
     }
 
     @Test
@@ -75,39 +129,21 @@ class CommandTest {
         // Вводимо букви замість цифри типу
         String input = "abc\n";
         Scanner scanner = mockScanner(input);
-
         Command cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
         cmd.execute();
 
-        String output = outputStreamCaptor.toString();
-        assertTrue(output.contains("Помилка вводу"));
+        assertTrue(outputStreamCaptor.toString().contains("Помилка вводу"));
     }
 
     @Test
     void testCreatePolicyUnknownType() {
         // Вводимо неіснуючий тип "99"
-        // Спочатку введемо коректні загальні дані, а на виборі типу введемо 99
         String input = "99\nName\n100\n0.1\n12\n";
         Scanner scanner = mockScanner(input);
-
         Command cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
         cmd.execute();
 
-        String output = outputStreamCaptor.toString();
-        // У вашому коді default кидає println, але не exception, тому перевіряємо текст
-        // Зауваження: ваш код спочатку читає тип, а потім загальні поля.
-        // А в тесті input має відповідати порядку: Type -> Name -> Obligation -> Risk -> Duration
-        // Виправлений input:
-        String correctInputOrder = "99\nName\n100\n0.1\n12\n";
-
-        // Перестворюємо сканер з правильним порядком (якщо код CreatePolicyCommand: спочатку type, потім name...)
-        // Дивимось ваш код: так, спочатку type, потім name...
-        scanner = mockScanner(correctInputOrder);
-        cmd = new CreatePolicyCommand(derivative, manager, scanner, idCounter);
-        cmd.execute();
-
-        output = outputStreamCaptor.toString();
-        assertTrue(output.contains("Невірний тип полісу"));
+        assertTrue(outputStreamCaptor.toString().contains("Невірний тип полісу"));
     }
 
     // --- ТЕСТИ ShowPoliciesCommand ---
@@ -116,7 +152,6 @@ class CommandTest {
     void testShowPoliciesEmpty() {
         Command cmd = new ShowPoliciesCommand(derivative);
         cmd.execute();
-
         assertTrue(outputStreamCaptor.toString().contains("Полісів немає"));
     }
 
@@ -125,7 +160,6 @@ class CommandTest {
         derivative.addPolicy(new AutoInsurance(1, "Car", 100, 0.1, 12, "S", 0, false));
         Command cmd = new ShowPoliciesCommand(derivative);
         cmd.execute();
-
         assertTrue(outputStreamCaptor.toString().contains("Всі поліси:"));
         assertTrue(outputStreamCaptor.toString().contains("Car"));
     }
@@ -137,19 +171,15 @@ class CommandTest {
         Scanner scanner = mockScanner("true\n");
         Command cmd = new SortPoliciesCommand(derivative, scanner);
         cmd.execute();
-
         assertTrue(outputStreamCaptor.toString().contains("Немає що сортувати"));
     }
 
     @Test
     void testSortPoliciesSuccess() {
         derivative.addPolicy(new AutoInsurance(1, "Car", 100, 0.1, 12, "S", 0, false));
-        // Вводимо "true" (сортувати за зростанням)
         Scanner scanner = mockScanner("true\n");
-
         Command cmd = new SortPoliciesCommand(derivative, scanner);
         cmd.execute();
-
         assertTrue(outputStreamCaptor.toString().contains("Поліси відсортовано"));
     }
 
@@ -160,17 +190,14 @@ class CommandTest {
         Scanner scanner = mockScanner("");
         Command cmd = new FindPoliciesCommand(derivative, scanner);
         cmd.execute();
-
         assertTrue(outputStreamCaptor.toString().contains("Полісів немає"));
     }
 
     @Test
     void testFindPoliciesSuccess() {
         derivative.addPolicy(new AutoInsurance(1, "Car", 100, 0.5, 12, "S", 0, false));
-        // Вводимо діапазон: minRisk=0.4, maxRisk=0.6, maxObl=200
         String input = "0.4\n0.6\n200\n";
         Scanner scanner = mockScanner(input);
-
         Command cmd = new FindPoliciesCommand(derivative, scanner);
         cmd.execute();
 
@@ -180,14 +207,24 @@ class CommandTest {
     @Test
     void testFindPoliciesNotFound() {
         derivative.addPolicy(new AutoInsurance(1, "Car", 100, 0.5, 12, "S", 0, false));
-        // Нереальний діапазон
         String input = "0.1\n0.2\n50\n";
         Scanner scanner = mockScanner(input);
-
         Command cmd = new FindPoliciesCommand(derivative, scanner);
         cmd.execute();
 
         assertTrue(outputStreamCaptor.toString().contains("не знайдені"));
+    }
+
+    @Test
+    void testFindPoliciesInputError() {
+        derivative.addPolicy(new AutoInsurance(1, "Car", 100, 0.5, 12, "S", 0, false));
+        // Вводимо текст замість числа для ризику
+        String input = "abc\n";
+        Scanner scanner = mockScanner(input);
+        Command cmd = new FindPoliciesCommand(derivative, scanner);
+        cmd.execute();
+
+        assertTrue(outputStreamCaptor.toString().contains("Помилка вводу"));
     }
 
     // --- ТЕСТИ GenerateReportCommand ---
@@ -196,11 +233,7 @@ class CommandTest {
     void testGenerateReport() {
         derivative.addPolicy(new AutoInsurance(1, "Car", 100, 0.1, 12, "S", 0, false));
         Command cmd = new GenerateReportCommand(manager, derivative);
-
-        // Тут ми просто перевіряємо, що команда викликає метод і не падає
         cmd.execute();
-
-        // InsuranceManager у вас пише в логгер і в System.out, тому перехопимо це
         assertTrue(outputStreamCaptor.toString().contains("Звіт по Деривативу"));
     }
 
@@ -208,44 +241,33 @@ class CommandTest {
 
     @Test
     void testExitCommand() {
-        // Створюємо змінну-прапорець
         final boolean[] executed = {false};
-
         Command cmd = new ExitCommand(() -> executed[0] = true);
         cmd.execute();
-
         assertTrue(outputStreamCaptor.toString().contains("Вихід з програми"));
-        assertTrue(executed[0], "ExitCommand має викликати Runnable");
+        assertTrue(executed[0]);
     }
 
-    // --- ТЕСТИ LoadFromFileCommand (Найскладніше: треба створити файл) ---
+    // --- ТЕСТИ LoadFromFileCommand ---
 
     @Test
     void testLoadFromFile() throws IOException {
-        // 1. Створюємо тимчасовий тестовий файл
         String testFilename = "test_policies_temp.txt";
         try (PrintWriter writer = new PrintWriter(new FileWriter(testFilename))) {
             writer.println("auto,TestCar,1000,0.1,12,Sedan,0,true");
             writer.println("# коментар");
-            writer.println("bad_line"); // Помилковий рядок
+            writer.println("bad_line");
         }
 
-        // 2. Вводимо ім'я цього файлу в сканер
         Scanner scanner = mockScanner(testFilename + "\n");
-
         Command cmd = new LoadFromFileCommand(derivative, manager, scanner, idCounter);
         cmd.execute();
 
-        // 3. Перевіряємо
         String output = outputStreamCaptor.toString();
         assertTrue(output.contains("Завантаження завершено"));
-        // Має бути 1 успішний (auto) і 1 помилка (bad_line)
         assertTrue(output.contains("Успішно: 1"));
-
-        // Перевіряємо, що в деривативі з'явився поліс
         assertEquals(1, derivative.getPolicies().size());
 
-        // 4. Видаляємо файл
         new File(testFilename).delete();
     }
 
@@ -254,7 +276,6 @@ class CommandTest {
         Scanner scanner = mockScanner("non_existent_file.txt\n");
         Command cmd = new LoadFromFileCommand(derivative, manager, scanner, idCounter);
         cmd.execute();
-
         assertTrue(outputStreamCaptor.toString().contains("Помилка читання файлу"));
     }
 }
