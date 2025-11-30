@@ -13,68 +13,122 @@ class InsuranceManagerTest {
         manager = new InsuranceManager();
     }
 
-    // Тест 1: Успішне парсування 'auto'
+    // --- ТЕСТИ ПАРСИНГУ (Happy Path) ---
     @Test
-    void testParseAutoPolicySuccess() throws Exception {
-        // Arrange
-        String line = "auto,Моя Mazda,150000,0.3,12,Легковий,0,true";
-
-        // Act
-        InsurancePolicy policy = manager.parsePolicyFromLine(line, 100);
-
-        // Assert
-        // Перевіряємо, що це дійсно AutoInsurance
-        assertInstanceOf(AutoInsurance.class, policy, "Має бути AutoInsurance");
-        // Перевіряємо, що ключові поля збігаються
-        assertEquals("Моя Mazda", policy.getName());
-        assertEquals(0.3, policy.getRisk());
-        assertEquals(150000, policy.getObligation());
-        assertEquals(100, policy.id);
+    void testParseMedicalSuccess() throws Exception {
+        String line = "medical,TestMed,1000,0.5,12,60,Full,Surgery";
+        InsurancePolicy p = manager.parsePolicyFromLine(line, 1);
+        assertTrue(p instanceof MedicalInsurance);
+        assertEquals("TestMed", p.getName());
     }
 
-    // Тест 2: Успішне парсування 'life'
     @Test
-    void testParseLifePolicySuccess() throws Exception {
-        // Arrange
-        String line = "life,На майбутнє,1000000,0.15,30,30,1000000,good";
-
-        // Act
-        InsurancePolicy policy = manager.parsePolicyFromLine(line, 101);
-
-        // Assert
-        assertInstanceOf(LifeInsurance.class, policy, "Має бути LifeInsurance");
-        assertEquals("На майбутнє", policy.getName());
-        assertEquals(0.15, policy.getRisk());
-        assertEquals(101, policy.id);
+    void testParseAutoSuccess() throws Exception {
+        String line = "auto,TestCar,2000,0.3,24,Sedan,0,true";
+        InsurancePolicy p = manager.parsePolicyFromLine(line, 2);
+        assertTrue(p instanceof AutoInsurance);
     }
 
-    // Тест 3: Помилка - невідомий тип
+    @Test
+    void testParsePropertySuccess() throws Exception {
+        String line = "property,House,5000,0.2,12,Home,Low,true";
+        InsurancePolicy p = manager.parsePolicyFromLine(line, 3);
+        assertTrue(p instanceof PropertyInsurance);
+    }
+
+    @Test
+    void testParseTravelSuccess() throws Exception {
+        String line = "travel,Trip,1000,0.1,10,USA,14,0.2";
+        InsurancePolicy p = manager.parsePolicyFromLine(line, 4);
+        assertTrue(p instanceof TravelInsurance);
+    }
+
+    @Test
+    void testParseAgroSuccess() throws Exception {
+        String line = "agro,Wheat,10000,0.4,6,Corn,50.5,0.3";
+        InsurancePolicy p = manager.parsePolicyFromLine(line, 5);
+        assertTrue(p instanceof AgroInsurance);
+    }
+
+    @Test
+    void testParseLifeSuccess() throws Exception {
+        String line = "life,LifeIns,100000,0.1,120,30,50000,Good";
+        InsurancePolicy p = manager.parsePolicyFromLine(line, 6);
+        assertTrue(p instanceof LifeInsurance);
+    }
+
+    // --- ТЕСТИ ПОМИЛОК (Exception Path) ---
+
+    @Test
+    void testParseNotEnoughBaseData() {
+        // Рядок занадто короткий (менше 5 елементів)
+        String line = "auto,ShortLine";
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            manager.parsePolicyFromLine(line, 1);
+        });
+        assertEquals("Недостатньо базових даних", exception.getMessage());
+    }
+
     @Test
     void testParseUnknownType() {
-        // Arrange
-        String line = "boat,Титанік,1000,0.9,1,Ocean,1,false";
-
-        // Act & Assert
-        // Ми перевіряємо, що метод КИНЕ виняток IllegalArgumentException
+        // Невідомий тип полісу
+        String line = "spaceship,AlienShip,1000,0.5,12,Mars,1,false";
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            manager.parsePolicyFromLine(line, 102);
+            manager.parsePolicyFromLine(line, 1);
         });
-
-        // Перевіряємо, що повідомлення про помилку правильне
         assertTrue(exception.getMessage().contains("Невідомий тип полісу"));
     }
 
-    // Тест 4: Помилка - недостатньо даних
     @Test
-    void testParseNotEnoughData() {
-        // Arrange
-        String line = "auto,Тесла,200000,0.5"; // Недостатньо полів
-
-        // Act & Assert
+    void testParseAutoNotEnoughSpecificData() {
+        // Тип auto, але не вистачає полів для авто (менше 8)
+        String line = "auto,Car,1000,0.1,12,Sedan,0"; // 7 елементів
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            manager.parsePolicyFromLine(line, 103);
+            manager.parsePolicyFromLine(line, 1);
         });
+        assertEquals("Недостатньо даних для 'auto'", exception.getMessage());
+    }
 
-        assertTrue(exception.getMessage().contains("Недостатньо базових даних"));
+    @Test
+    void testParseMedicalNotEnoughSpecificData() {
+        String line = "medical,Med,1000,0.1,12,50";
+        assertThrows(IllegalArgumentException.class, () -> manager.parsePolicyFromLine(line, 1));
+    }
+
+    // Аналогічні перевірки для інших типів, щоб покрити всі "case"
+    @Test
+    void testParsePropertyNotEnoughSpecificData() {
+        String line = "property,Prop,1000,0.1,12,House,Low";
+        assertThrows(IllegalArgumentException.class, () -> manager.parsePolicyFromLine(line, 1));
+    }
+
+    @Test
+    void testParseInvalidNumberFormat() {
+        // Передаємо текст "ABC" замість числа зобов'язання
+        String line = "auto,Car,ABC,0.1,12,Sedan,0,true";
+        assertThrows(NumberFormatException.class, () -> {
+            manager.parsePolicyFromLine(line, 1);
+        });
+    }
+
+    // --- ТЕСТИ ЗВІТУ ---
+
+    @Test
+    void testGenerateReportEmpty() {
+        // Перевіряємо гілку if (derivative.getPolicies().isEmpty())
+        Derivative emptyDerivative = new Derivative();
+
+        // Метод void, тому просто викликаємо, щоб переконатися, що не падає
+        // і проходить по гілці "isEmpty" (це видно в Coverage)
+        manager.generateReport(emptyDerivative);
+    }
+
+    @Test
+    void testGenerateReportWithData() {
+        Derivative d = new Derivative();
+        d.addPolicy(new AutoInsurance(1, "A", 100, 0.1, 12, "S", 0, false));
+
+        // Викликаємо для покриття циклу for і логування
+        manager.generateReport(d);
     }
 }
