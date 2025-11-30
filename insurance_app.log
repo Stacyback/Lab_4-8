@@ -80,3 +80,45 @@ java.io.FileNotFoundException: propol.txt (The system cannot find the file speci
 2025-11-16 22:01:31.385 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====
 2025-11-18 23:17:00.414 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗАПУЩЕНО =====
 2025-11-18 23:20:07.760 [main] INFO  main.Main - ===== СИСТЕМУ СТРАХУВАННЯ ЗУПИНЕНО =====
+2025-11-30 12:58:49.490 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 12:58:49.535 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 12:59:04.720 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 12:59:04.726 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 12:59:04.820 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 12:59:04.821 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 12:59:04.832 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 12:59:04.844 [main] INFO  insurance.InsuranceManager - Елемент звіту: A [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 12:59:04.852 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:08:30.399 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:08:30.402 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:08:30.481 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:08:30.481 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:08:30.491 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:08:30.493 [main] INFO  insurance.InsuranceManager - Елемент звіту: A [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:08:30.499 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:08:30.518 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:08:30.519 [main] INFO  insurance.InsuranceManager - Елемент звіту: Test [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:08:30.519 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:08:37.373 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:08:37.381 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:08:37.483 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:08:37.483 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:08:37.494 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:08:37.497 [main] INFO  insurance.InsuranceManager - Елемент звіту: A [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:08:37.508 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:08:37.532 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:08:37.534 [main] INFO  insurance.InsuranceManager - Елемент звіту: Test [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:08:37.535 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:17:09.422 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:17:09.428 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:17:09.536 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:17:09.537 [main] INFO  insurance.InsuranceManager - Елемент звіту: Car [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:17:09.545 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:17:09.585 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:17:09.585 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:17:09.592 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:17:09.593 [main] INFO  insurance.InsuranceManager - Елемент звіту: A [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:17:09.593 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:17:09.617 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:17:09.617 [main] INFO  insurance.InsuranceManager - Елемент звіту: Test [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
+2025-11-30 13:17:09.618 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====

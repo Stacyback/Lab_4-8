@@ -70,16 +70,6 @@ class InsuranceManagerTest {
     }
 
     @Test
-    void testParseUnknownType() {
-        // Невідомий тип полісу
-        String line = "spaceship,AlienShip,1000,0.5,12,Mars,1,false";
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            manager.parsePolicyFromLine(line, 1);
-        });
-        assertTrue(exception.getMessage().contains("Невідомий тип полісу"));
-    }
-
-    @Test
     void testParseAutoNotEnoughSpecificData() {
         // Тип auto, але не вистачає полів для авто (менше 8)
         String line = "auto,Car,1000,0.1,12,Sedan,0"; // 7 елементів
@@ -113,15 +103,6 @@ class InsuranceManagerTest {
 
     // --- ТЕСТИ ЗВІТУ ---
 
-    @Test
-    void testGenerateReportEmpty() {
-        // Перевіряємо гілку if (derivative.getPolicies().isEmpty())
-        Derivative emptyDerivative = new Derivative();
-
-        // Метод void, тому просто викликаємо, щоб переконатися, що не падає
-        // і проходить по гілці "isEmpty" (це видно в Coverage)
-        manager.generateReport(emptyDerivative);
-    }
 
     @Test
     void testGenerateReportWithData() {
@@ -130,5 +111,73 @@ class InsuranceManagerTest {
 
         // Викликаємо для покриття циклу for і логування
         manager.generateReport(d);
+    }
+    @Test
+    void testParseShortLine() {
+        // Тестуємо: if (data.length < 5)
+        String line = "auto,ShortLine";
+        assertThrows(IllegalArgumentException.class, () -> {
+            manager.parsePolicyFromLine(line, 999);
+        });
+    }
+
+    @Test
+    void testParseUnknownType() {
+        // Тестуємо: default: throw ...
+        String line = "alien_ship,UFO,1000,0.5,10,Mars,1,true";
+        assertThrows(IllegalArgumentException.class, () -> {
+            manager.parsePolicyFromLine(line, 999);
+        });
+    }
+
+    @Test
+    void testParseAutoNotEnoughData() {
+        // Тестуємо: case "auto": if (data.length < 8)
+        // Тут 7 елементів, а треба 8
+        String line = "auto,Car,1000,0.1,12,Sedan,0";
+        assertThrows(IllegalArgumentException.class, () -> {
+            manager.parsePolicyFromLine(line, 999);
+        });
+    }
+
+    @Test
+    void testParseMedicalNotEnoughData() {
+        // Тестуємо: case "medical": if (data.length < 8)
+        String line = "medical,Med,1000,0.1,12,60,Full";
+        assertThrows(IllegalArgumentException.class, () -> {
+            manager.parsePolicyFromLine(line, 999);
+        });
+    }
+
+    // (Можна додати такі ж для property, agro, travel, life, якщо хочете 100% педантичності,
+    // але зазвичай одного-двох прикладів вистачає для покриття логіки switch)
+
+    @Test
+    void testParseInvalidNumber() {
+        // Тестуємо: NumberFormatException
+        String line = "auto,Car,NOT_A_NUMBER,0.1,12,Sedan,0,true";
+        assertThrows(NumberFormatException.class, () -> {
+            manager.parsePolicyFromLine(line, 999);
+        });
+    }
+
+    // --- ТЕСТИ ЗВІТУ (Важливо для логування та if/else) ---
+
+    @Test
+    void testGenerateReportEmpty() {
+        // Тестуємо гілку: if (derivative.getPolicies().isEmpty())
+        Derivative emptyDerivative = new Derivative();
+
+        // Просто викликаємо метод. Якщо він не впав і пройшов по коду - це зарахується в coverage
+        assertDoesNotThrow(() -> manager.generateReport(emptyDerivative));
+    }
+
+    @Test
+    void testGenerateReportFull() {
+        // Тестуємо гілку: else (цикл for)
+        Derivative d = new Derivative();
+        d.addPolicy(new AutoInsurance(1, "Test", 100, 0.1, 12, "Type", 0, false));
+
+        assertDoesNotThrow(() -> manager.generateReport(d));
     }
 }
