@@ -137,3 +137,13 @@ java.io.FileNotFoundException: propol.txt (The system cannot find the file speci
 2025-11-30 13:35:23.091 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
 2025-11-30 13:38:03.441 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
 2025-11-30 13:38:03.445 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
+2025-11-30 13:48:48.507 [main] INFO  command.LoadFromFileCommand - Спроба завантажити файл: осла.txt
+2025-11-30 13:48:48.517 [main] ERROR command.LoadFromFileCommand - КРИТИЧНА ПОМИЛКА: Не вдалося відкрити файл осла.txt
+java.io.FileNotFoundException: осла.txt (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:185)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:139)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:109)
+	at java.base/java.io.FileReader.<init>(FileReader.java:60)
+	at command.LoadFromFileCommand.execute(LoadFromFileCommand.java:43)
+	at main.Main.main(Main.java:34)
