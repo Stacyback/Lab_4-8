@@ -135,3 +135,5 @@ java.io.FileNotFoundException: propol.txt (The system cannot find the file speci
 2025-11-30 13:35:23.090 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
 2025-11-30 13:35:23.091 [main] INFO  insurance.InsuranceManager - Елемент звіту: Test [ID=1, Risk=0,10, Obligation=100,00] (Премія: 110,00)
 2025-11-30 13:35:23.091 [main] INFO  insurance.InsuranceManager - ===== Кінець звіту. Загальна вартість (сума премій): 110,00 =====
+2025-11-30 13:38:03.441 [main] INFO  insurance.InsuranceManager - ===== Початок генерації звіту по деривативу =====
+2025-11-30 13:38:03.445 [main] WARN  insurance.InsuranceManager - Звіт не згенеровано: дериватив порожній.
