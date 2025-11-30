@@ -1,6 +1,9 @@
 package command;
 
 import insurance.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory; // <--- 1. Додано імпорти
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,6 +11,9 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LoadFromFileCommand implements Command {
+
+    // 2. Створюємо об'єкт логера
+    private static final Logger logger = LoggerFactory.getLogger(LoadFromFileCommand.class);
 
     private final Derivative derivative;
     private final InsuranceManager manager;
@@ -29,6 +35,8 @@ public class LoadFromFileCommand implements Command {
         System.out.print("Введіть ім'я файлу: ");
         String filename = scanner.nextLine().trim();
 
+        logger.info("Спроба завантажити файл: {}", filename); // Пишемо в лог
+
         int success = 0;
         int errors = 0;
 
@@ -45,11 +53,21 @@ public class LoadFromFileCommand implements Command {
                     success++;
                 } catch (Exception e) {
                     errors++;
+                    // Можна записати попередження про битий рядок (не відправить лист, просто в файл)
+                    logger.warn("Помилка парсингу рядка: {}", line);
                 }
             }
-            System.out.println("Завантаження завершено. Успішно: " + success + ", Помилки: " + errors);
+            String resultMsg = "Завантаження завершено. Успішно: " + success + ", Помилки: " + errors;
+            System.out.println(resultMsg);
+            logger.info(resultMsg);
+
         } catch (IOException e) {
+            // 🔥🔥🔥 ГОЛОВНЕ ВИПРАВЛЕННЯ 🔥🔥🔥
+            // Раніше тут був тільки System.out.println.
+            // Ми додаємо logger.error. Саме цей рядок змушує Logback відправити E-mail!
+
             System.out.println("Помилка читання файлу: " + e.getMessage());
+            logger.error("КРИТИЧНА ПОМИЛКА: Не вдалося відкрити файл " + filename, e);
         }
     }
 }
